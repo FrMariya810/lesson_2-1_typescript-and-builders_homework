@@ -17,6 +17,7 @@ function readSeats(raw: FormDataEntryValue | null): number | null {
 }
 
 // HW-А2: замените заглушку; нужный результат WorkshopId | null.
+// Для проверки через форму сначала включите список ui.workshop в месте HW-А4.
 function readWorkshop(raw: FormDataEntryValue | null): null {
   void raw
   return null
@@ -111,7 +112,8 @@ if (!(form instanceof HTMLFormElement) || !(list instanceof HTMLUListElement)
 // Проверенные DOM-элементы уже готовы к использованию.
 const ui = { form, list, total, message, workshop, typescriptFree, buildFree, logo, notice }
 
-// HW-А4: включите ui.workshop, уберите стартовое уведомление ui.notice.
+// HW-А4: сделайте список ui.workshop доступным для выбора уже при проверке А2.
+// Здесь же скройте или удалите найденный ui.notice после проверки DOM выше.
 // HW-Б2: задайте ui.logo.src, alt и покажите изображение.
 
 function render(items: Booking[]) {
@@ -146,7 +148,7 @@ ui.form.addEventListener('submit', (event) => {
   }
 
   // HW-А2: прочитайте data.get('workshop') через readWorkshop, обработайте отказ.
-  // HW-А3: проверьте свободные места до изменения массива bookings.
+  // HW-А3: сравните число участников с остатком мест выбранного занятия до изменения bookings.
 
   const booking: Booking = {
     id: crypto.randomUUID(),
