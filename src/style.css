@@ -1,0 +1,50 @@
+* { box-sizing: border-box; }
+:root { color-scheme: light; font-family: Inter, system-ui, sans-serif; color: #223b36; background: #f4f5f0; }
+body { margin: 0; font-size: 16px; line-height: 1.5; }
+[hidden] { display: none !important; }
+.workspace { max-width: 1120px; margin: 0 auto; padding: 42px 24px 24px; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.eyebrow { margin: 0; color: #487163; font-size: 11px; font-weight: 750; letter-spacing: 1.8px; }
+h1 { margin: 12px 0; font-size: clamp(28px, 4vw, 43px); font-weight: 680; line-height: 1.15; letter-spacing: -1.3px; }
+h2 { margin: 0 0 16px; font-size: 21px; line-height: 1.3; }
+.lead { color: #5c7069; margin: 0; }
+.logo { flex-shrink: 0; object-fit: contain; }
+.notice { background: #fff4d7; border: 1px solid #e9d8a7; border-radius: 10px; padding: 12px 16px; margin-bottom: 24px; color: #6b5425; font-size: 14px; }
+.notice strong { margin-right: 4px; }
+.sessions { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.session { padding: 20px 24px; background: #e1ece5; border: 1px solid #cbded1; border-radius: 14px; }
+.session--blue { background: #e7ebf5; border-color: #d3dbee; }
+.session-code { display: block; font-size: 10px; font-weight: 750; letter-spacing: 1.5px; opacity: .75; margin-bottom: 10px; }
+.session h2 { margin-bottom: 6px; }
+.session p { margin: 4px 0; font-size: 14px; }
+.session .availability { margin-top: 12px; }
+.columns { display: grid; grid-template-columns: 350px minmax(0, 1fr); gap: 24px; align-items: start; }
+.panel { padding: 26px; background: #fff; border: 1px solid #dce3da; border-radius: 14px; }
+label { display: block; margin: 17px 0 6px; font-size: 14px; font-weight: 650; }
+input, select { width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid #b8c8c0; border-radius: 7px; background: white; color: #223b36; font: inherit; }
+select:disabled { background: #f0f2ed; color: #78867e; }
+small { display: block; margin-top: 6px; color: #5b7066; font-size: 12px; }
+button { width: 100%; padding: 12px; margin-top: 22px; background: #285b50; color: white; border: 0; border-radius: 8px; font: inherit; font-weight: 650; cursor: pointer; }
+button:hover { background: #1d493f; }
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px solid #b28b31; outline-offset: 3px; }
+.message { min-height: 24px; margin: 12px 0 0; font-size: 14px; overflow-wrap: anywhere; }
+.list-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.counter { font-size: 13px; color: #52695e; white-space: nowrap; }
+.counter strong { font-size: 23px; color: #285b50; }
+.bookings { list-style: none; padding: 0; margin: 0; }
+.bookings li { display: flex; flex-direction: column; gap: 5px; padding: 17px 0; border-bottom: 1px solid #e4e9e2; overflow-wrap: anywhere; }
+.bookings span { font-size: 13px; color: #607369; }
+.muted { margin: 20px 0 0; color: #677a70; font-size: 12px; }
+footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 16px; color: #617568; border-top: 1px solid #d6dfd4; font-size: 12px; }
+@media (max-width: 780px) {
+  .columns { grid-template-columns: 1fr; }
+  .workspace { padding: 26px 16px; }
+  .panel { padding: 22px; }
+}
+@media (max-width: 480px) {
+  .sessions { grid-template-columns: 1fr; gap: 12px; }
+  .header { align-items: flex-start; gap: 10px; }
+  .logo { width: 64px; height: 64px; }
+  .eyebrow { font-size: 9px; letter-spacing: 1px; }
+  footer { flex-direction: column; }
+}
