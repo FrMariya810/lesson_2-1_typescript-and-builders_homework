@@ -115,25 +115,32 @@ if (!(form instanceof HTMLFormElement) || !(list instanceof HTMLUListElement)
 // Проверенные DOM-элементы уже готовы к использованию.
 const ui = { form, list, total, message, workshop, typescriptFree, buildFree, logo, notice }
 ui.workshop.disabled = false
+ui.notice.hidden = true
 
 // HW-А4: сделайте список ui.workshop доступным для выбора уже при проверке А2.
 // Здесь же скройте или удалите найденный ui.notice после проверки DOM выше.
 // HW-Б2: задайте ui.logo.src, alt и покажите изображение.
 
-function render(items: Booking[]) {
+function render(items: Booking[]): void {
   ui.list.replaceChildren()
+
   items.forEach((booking) => {
     const item = document.createElement('li')
     const title = document.createElement('strong')
     const details = document.createElement('span')
+    const workshopName = booking.workshop === 'typescript'
+      ? 'TypeScript'
+      : 'Сборка проекта'
+
     title.textContent = booking.name
-    // HW-А4: добавьте название занятия в подробности карточки.
-    details.textContent = `${booking.seats} участн. · ${booking.status === 'confirmed' ? 'Подтверждена' : 'Новая'} · ${booking.source}`
+    details.textContent = `${workshopName} · ${booking.seats} участн. · ${booking.status === 'confirmed' ? 'Подтверждена' : 'Новая'} · ${booking.source}`
+
     item.append(title, details)
     ui.list.append(item)
   })
   ui.total.textContent = String(countSeats(items))
-  // HW-А4: обновите ui.typescriptFree и ui.buildFree через общий расчёт.
+  ui.typescriptFree.textContent = String(getRemainingSeats(items, 'typescript'))
+  ui.buildFree.textContent = String(getRemainingSeats(items, 'build'))
 }
 
 ui.form.addEventListener('submit', (event) => {
