@@ -1,5 +1,5 @@
 import './style.css'
-import type { Booking } from './models/booking'
+import type { Booking, WorkshopId } from './models/booking'
 import { initialBookings } from './data/initial-bookings'
 import { TYPESCRIPT_CAPACITY, BUILD_CAPACITY } from './data/capacities'
 import { countSeats } from './lib/count-seats'
@@ -150,6 +150,13 @@ ui.form.addEventListener('submit', (event) => {
   // HW-А2: прочитайте data.get('workshop') через readWorkshop, обработайте отказ.
   // HW-А3: сравните число участников с остатком мест выбранного занятия до изменения bookings.
 
+  const workshop = data.get('workshop')
+
+  if (workshop !== 'typescript' && workshop !== 'build') {
+    ui.message.textContent = 'Выберите занятие из списка.'
+    return
+  }
+
   const booking: Booking = {
     id: crypto.randomUUID(),
     name: rawName.trim(),
@@ -157,6 +164,7 @@ ui.form.addEventListener('submit', (event) => {
     status: 'new',
     source: 'web',
     // HW-А1: добавьте проверенное занятие.
+    workshop
   }
   bookings.push(booking)
   render(bookings)
