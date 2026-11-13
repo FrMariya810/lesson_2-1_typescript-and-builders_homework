@@ -18,8 +18,10 @@ function readSeats(raw: FormDataEntryValue | null): number | null {
 
 // HW-А2: замените заглушку; нужный результат WorkshopId | null.
 // Для проверки через форму сначала включите список ui.workshop в месте HW-А4.
-function readWorkshop(raw: FormDataEntryValue | null): null {
-  void raw
+function readWorkshop(raw: FormDataEntryValue | null): WorkshopId | null {
+  if (raw === 'typescript' || raw === 'build') {
+    return raw
+  }
   return null
 }
 
@@ -111,6 +113,7 @@ if (!(form instanceof HTMLFormElement) || !(list instanceof HTMLUListElement)
 
 // Проверенные DOM-элементы уже готовы к использованию.
 const ui = { form, list, total, message, workshop, typescriptFree, buildFree, logo, notice }
+ui.workshop.disabled = false
 
 // HW-А4: сделайте список ui.workshop доступным для выбора уже при проверке А2.
 // Здесь же скройте или удалите найденный ui.notice после проверки DOM выше.
@@ -150,9 +153,9 @@ ui.form.addEventListener('submit', (event) => {
   // HW-А2: прочитайте data.get('workshop') через readWorkshop, обработайте отказ.
   // HW-А3: сравните число участников с остатком мест выбранного занятия до изменения bookings.
 
-  const workshop = data.get('workshop')
+  const workshop = readWorkshop(data.get('workshop'))
 
-  if (workshop !== 'typescript' && workshop !== 'build') {
+  if (workshop === null) {
     ui.message.textContent = 'Выберите занятие из списка.'
     return
   }
