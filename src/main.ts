@@ -3,6 +3,7 @@ import type { Booking, WorkshopId } from './models/booking'
 import { initialBookings } from './data/initial-bookings'
 import { TYPESCRIPT_CAPACITY, BUILD_CAPACITY } from './data/capacities'
 import { countSeats } from './lib/count-seats'
+import { getRemainingSeats } from './lib/availability'
 // HW-Б1: подключите расчёты из ./lib/availability.
 // HW-Б2: импортируйте ./assets/workshops.svg как URL.
 
@@ -157,6 +158,13 @@ ui.form.addEventListener('submit', (event) => {
 
   if (workshop === null) {
     ui.message.textContent = 'Выберите занятие из списка.'
+    return
+  }
+
+  const remaining = getRemainingSeats(bookings, workshop)
+
+  if (seats > remaining) {
+    ui.message.textContent = remaining === 0 ? 'На выбранном занятии мест нет.' : 'Недостаточно мест. Свободных мест: ${remaining}.'
     return
   }
 
