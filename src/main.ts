@@ -175,7 +175,7 @@ ui.form.addEventListener('submit', (event) => {
   const remaining = getRemainingSeats(bookings, workshop)
 
   if (seats > remaining) {
-    ui.message.textContent = remaining === 0 ? 'На выбранном занятии мест нет.' : 'Недостаточно мест. Свободных мест: ${remaining}.'
+    ui.message.textContent = remaining === 0 ? 'На выбранном занятии мест нет.' : `Недостаточно мест. Свободных мест: ${remaining}.`
     return
   }
 
