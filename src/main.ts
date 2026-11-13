@@ -8,23 +8,34 @@ import { getRemainingSeats } from './lib/availability'
 // HW-Б1: подключите расчёты из ./lib/availability.
 // HW-Б2: импортируйте ./assets/workshops.svg как URL.
 
+type Result<T> =
+  | { ok: true; value: T }
+  | { ok: false; error: string }
+
 const bookings: Array<Booking> = [...initialBookings]
 
 // Проверка из практики уже работает. В базе менять её не требуется.
-function readSeats(raw: FormDataEntryValue | null): number | null {
-  if (typeof raw !== 'string' || raw.trim() === '') return null
+function readSeats(raw: FormDataEntryValue | null): Result<number> {
+  if (typeof raw !== 'string' || raw.trim() === '') {
+    return { ok: false, error: 'Укажите число участников.' }
+  }
   const seats = Number(raw)
-  if (!Number.isInteger(seats) || seats < 1 || seats > 5) return null
-  return seats
+  if (!Number.isInteger(seats) || seats < 1 || seats > 5) {
+    return {
+      ok: false,
+      error: 'Введите целое число участников от 1 до 5.'
+    }
+  }
+  return { ok: true, value: seats }
 }
 
 // HW-А2: замените заглушку; нужный результат WorkshopId | null.
 // Для проверки через форму сначала включите список ui.workshop в месте HW-А4.
-function readWorkshop(raw: FormDataEntryValue | null): WorkshopId | null {
+function readWorkshop(raw: FormDataEntryValue | null): Result<WorkshopId> {
   if (raw === 'typescript' || raw === 'build') {
-    return raw
+    return { ok: true, value: raw }
   }
-  return null
+  return { ok: false, error: 'Выберите занятие из списка.' }
 }
 
 const app = document.querySelector<HTMLDivElement>('#app')
@@ -156,21 +167,24 @@ ui.form.addEventListener('submit', (event) => {
     return
   }
 
-  const seats = readSeats(data.get('seats'))
-  if (seats === null) {
-    ui.message.textContent = 'Введите целое число участников от 1 до 5.'
+  const seatsResult = readSeats(data.get('seats'))
+  if (!seatsResult.ok) {
+    ui.message.textContent = seatsResult.error
     return
   }
 
   // HW-А2: прочитайте data.get('workshop') через readWorkshop, обработайте отказ.
   // HW-А3: сравните число участников с остатком мест выбранного занятия до изменения bookings.
 
-  const workshop = readWorkshop(data.get('workshop'))
+  const workshopResult = readWorkshop(data.get('workshop'))
 
-  if (workshop === null) {
-    ui.message.textContent = 'Выберите занятие из списка.'
+  if (!workshopResult.ok) {
+    ui.message.textContent = workshopResult.error
     return
   }
+
+  const seats = seatsResult.value
+  const workshop = workshopResult.value
 
   const remaining = getRemainingSeats(bookings, workshop)
 
